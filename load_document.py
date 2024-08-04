@@ -6,15 +6,16 @@ from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_pinecone import PineconeVectorStore
 from dotenv import load_dotenv
 
-folder_path = "documents/iesc1dd"
+folder_path = "documents/jesc1dd"
 
 
 def load_data():
-    #loader = PyPDFLoader(folder_path)
+    # loader = PyPDFLoader(folder_path + "/jesc113.pdf")
     loader = PyPDFDirectoryLoader(folder_path)
     docs = loader.load()
 
     return docs
+
 
 def save_docs_to_db(docs):
     text_splitter = RecursiveCharacterTextSplitter(
@@ -32,6 +33,7 @@ def save_docs_to_db(docs):
     )
 
     return doc_db
+
 
 def get_similar_docs(query:str):
 
@@ -62,21 +64,11 @@ def get_retriever_handle():
     return retriever
 
 
-
 if __name__ == "__main__":
 
     load_dotenv()
-    # docs = load_data()
-    # print("# of pages loaded", len(docs))
-    # ##print(docs[0])
-    # doc_db = save_docs_to_db(docs)
-    # print("Docs saved to Pinecone DB")
-    # query = "What are Newton's laws of motion?"
-    # result = doc_db.similarity_search(query)
-    # if(len(result) > 0):
-    #     print(result[0].page_content)
-    # else:
-    #     print("No results")
-
-    query = "What is law of conservation of energy?"
-    get_similar_docs(query)
+    docs = load_data()
+    print("# of pages loaded", len(docs))
+    ##print(docs[0])
+    doc_db = save_docs_to_db(docs)
+    print("Docs saved to Pinecone DB")
